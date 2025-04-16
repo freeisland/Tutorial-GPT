@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Tutorial-GPT/static/css/main.906e390e.css",
+    "main.js": "/Tutorial-GPT/static/js/main.d4a5d9f8.js",
+    "static/js/453.c0fa8bba.chunk.js": "/Tutorial-GPT/static/js/453.c0fa8bba.chunk.js",
+    "index.html": "/Tutorial-GPT/index.html",
+    "main.906e390e.css.map": "/Tutorial-GPT/static/css/main.906e390e.css.map",
+    "main.d4a5d9f8.js.map": "/Tutorial-GPT/static/js/main.d4a5d9f8.js.map",
+    "453.c0fa8bba.chunk.js.map": "/Tutorial-GPT/static/js/453.c0fa8bba.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.906e390e.css",
+    "static/js/main.d4a5d9f8.js"
+  ]
+}
