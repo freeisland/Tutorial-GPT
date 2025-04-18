@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 // ProgressBar kann wieder importiert werden, wenn wir es mit Tailwind stylen
 // import ProgressBar from './TutorialAssistant/ProgressBar';
 
-const TutorialAssistant = ({ content }) => {
+const TutorialAssistant = ({ content, onShowVideoClick, onShowReactPlayerClick }) => {
   // --- NEU: Destrukturierung der Props gemäß neuer Datenstruktur ---
   const {
     id: tutorialId,
@@ -35,6 +35,9 @@ const TutorialAssistant = ({ content }) => {
     benefits: false,
     roi: false,
   });
+
+  // --- NEU: State für Feedback beim Kopieren (nur für Prompts) ---
+  const [copiedItemId, setCopiedItemId] = useState(null);
 
   // --- NEU: Funktion für dynamischen Storage Key ---
   const getStorageKey = (id) => `tutorialProgress_${id || 'default'}`;
@@ -93,7 +96,7 @@ const TutorialAssistant = ({ content }) => {
       );
     }
     // Dieser Effekt soll laufen, wenn sich der *Inhalt* des Tutorials ändert
-  }, [content, tutorialId]); // Abhängigkeit von content (und tutorialId)
+  }, [content, tutorialId, initialSections]); // <-- initialSections hinzugefügt
 
   // --- Angepasster Effekt zum Speichern ---
   useEffect(() => {
@@ -160,6 +163,21 @@ const TutorialAssistant = ({ content }) => {
     );
   };
 
+  // --- NEU: Funktion zum Kopieren von Text (nur für Prompts) ---
+  const handleCopy = (textToCopy, itemId) => {
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      // Erfolg: Zeige Feedback an
+      setCopiedItemId(itemId);
+      // Setze Feedback nach kurzer Zeit zurück
+      setTimeout(() => {
+        setCopiedItemId(null);
+      }, 1500); // 1.5 Sekunden
+    }).catch(err => {
+      console.error('Fehler beim Kopieren in die Zwischenablage:', err);
+      alert('Konnte den Text nicht kopieren.'); // Einfaches Fehlerfeedback
+    });
+  };
+
   // Berechnen des Fortschritts pro Sektion
   const calculateSectionProgress = (section) => {
     if (!section || !Array.isArray(section.tasks) || section.tasks.length === 0) return 0;
@@ -214,15 +232,49 @@ const TutorialAssistant = ({ content }) => {
                 <span className={`mr-2 transition-transform duration-200 ${section.expanded ? 'rotate-90' : 'rotate-0'}`}>►</span>
                 {section.title}
               </h3>
-              {/* Fortschrittsanzeige pro Sektion */}
-              <div className="flex items-center">
-                <div className="w-32 bg-gray-200 rounded-full h-3 mr-3">
-                  <div
-                    className="bg-green-500 h-3 rounded-full transition-all duration-300 ease-in-out"
-                    style={{ width: `${calculateSectionProgress(section)}%` }}
-                  ></div>
+
+              {/* --- NEU: Container für Button und Fortschrittsbalken --- */}
+              <div className="flex items-center space-x-4"> {/* space-x-4 für Abstand */}
+
+                {/* --- NEU: Bedingter Video-Button (nur für Vorbereitung) --- */}
+                {/* --- Geändert: Video-Button wird jetzt für jede Sektion angezeigt, wenn onShowVideoClick existiert --- */}
+                {onShowVideoClick && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // Verhindert das Auf-/Zuklappen der Sektion
+                      onShowVideoClick();  // Ruft die Funktion aus App.js auf
+                    }}
+                    className="px-2 py-1 bg-purple-600 text-white text-xs font-semibold rounded hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-1 transition-colors shadow-sm"
+                    title="Intro-Video ansehen"
+                  >
+                    🎬 Video {/* Kürzerer Text */}
+                  </button>
+                )}
+
+                {/* --- NEU: Button für ReactPlayer --- */}
+                {onShowReactPlayerClick && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation(); // Verhindert das Auf-/Zuklappen der Sektion
+                      onShowReactPlayerClick(); // Ruft die Funktion aus App.js auf
+                    }}
+                    className="px-2 py-1 bg-blue-600 text-white text-xs font-semibold rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 transition-colors shadow-sm"
+                    title="Video mit ReactPlayer öffnen"
+                  >
+                    ▶️ Player {/* Anderes Icon/Text */}
+                  </button>
+                )}
+
+                {/* Fortschrittsanzeige pro Sektion (jetzt innerhalb des Containers) */}
+                <div className="flex items-center"> {/* Gruppe für Balken und Prozent */}
+                  <div className="w-32 bg-gray-200 rounded-full h-3 mr-3">
+                    <div
+                      className="bg-green-500 h-3 rounded-full transition-all duration-300 ease-in-out"
+                      style={{ width: `${calculateSectionProgress(section)}%` }}
+                    ></div>
+                  </div>
+                  <span className="text-sm font-medium text-gray-600">{Math.round(calculateSectionProgress(section))}%</span>
                 </div>
-                <span className="text-sm font-medium text-gray-600">{Math.round(calculateSectionProgress(section))}%</span>
               </div>
             </div>
 
@@ -230,7 +282,7 @@ const TutorialAssistant = ({ content }) => {
             {section.expanded && (
               <div className="p-5 border-t border-gray-200 bg-white"> {/* Mehr Padding */}
                 {Array.isArray(section.tasks) && section.tasks.length > 0 ? (
-                  <ul className="space-y-3"> {/* Etwas mehr Abstand */}
+                  <ul className="space-y-3"> {/* Zurück zu space-y-3 */}
                     {section.tasks.map((task) => (
                       <li key={task.id} className="flex items-start">
                         <input
@@ -238,7 +290,7 @@ const TutorialAssistant = ({ content }) => {
                           id={`task-${section.id}-${task.id}`} // Eindeutige ID für Label-Verknüpfung
                           checked={task.completed}
                           onChange={() => toggleTask(index, task.id)}
-                          // Styling für die Checkbox (Tailwind Forms Plugin empfohlen für besseres Styling)
+                          // Styling für die Checkbox
                           className="mt-1 mr-3 h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
                         />
                         {/* Label für bessere Zugänglichkeit und Klickbarkeit */}
@@ -280,37 +332,71 @@ const TutorialAssistant = ({ content }) => {
            </div>
            {extraSectionsState.prompts && (
              <div className="p-6 border-t border-gray-200 bg-white space-y-6">
-               {/* Helper function to render a single prompt section */}
-               {Object.entries(prompts).map(([key, value]) => {
-                 // Generate a readable title from the key (e.g., gptHints -> GPT Hinweise)
-                 const title = key
-                   .replace(/([A-Z])/g, ' $1') // Add space before capital letters
-                   .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
-                   .replace(/Gpt/g, 'GPT'); // Keep GPT uppercase
-
-                 return (
-                   <div key={key}>
-                     <div className="flex justify-between items-center mb-2">
-                       <h4 className="text-md font-semibold text-gray-700">{title}</h4>
-                       <button
-                         onClick={() => navigator.clipboard.writeText(value)}
-                         className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-md hover:bg-blue-200 transition-colors focus:outline-none focus:ring-1 focus:ring-blue-400"
-                       >
-                         Kopieren
-                       </button>
-                     </div>
-                     <div className="bg-gray-50 p-4 rounded-md border border-gray-200 shadow-sm">
-                       {/* Use <pre> for preserving whitespace and line breaks */}
-                       <pre className="whitespace-pre-wrap text-sm text-gray-800 font-mono break-words">
-                         {value}
-                       </pre>
-                     </div>
+               {/* GPT Hints */}
+               {prompts.gptHints && (
+                 <div>
+                   {/* --- NEU: Flex Container für Titel und Button --- */}
+                   <div className="flex justify-between items-center mb-2">
+                     <h4 className="text-md font-semibold text-gray-700">GPT Hints</h4>
+                     <button
+                       onClick={() => handleCopy(prompts.gptHints, 'gptHints')} // Eindeutige ID 'gptHints'
+                       className={`px-2 py-1 text-xs rounded transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-1 ${
+                         copiedItemId === 'gptHints'
+                           ? 'bg-green-500 text-white focus:ring-green-400' // Feedback
+                           : 'bg-blue-100 text-blue-700 hover:bg-blue-200 focus:ring-blue-400' // Normal (Blau wie im Screenshot)
+                       }`}
+                     >
+                       {copiedItemId === 'gptHints' ? 'Kopiert!' : 'Kopieren'}
+                     </button>
                    </div>
-                 );
-               })}
-               {/* Fallback if prompts object is empty or not provided */}
-               {(!prompts || Object.keys(prompts).length === 0) && (
-                  <p className="text-gray-500 italic text-sm">Keine Prompts verfügbar.</p>
+                   <pre className="bg-gray-100 p-4 rounded-md text-sm text-gray-800 whitespace-pre-wrap font-sans">
+                     {prompts.gptHints}
+                   </pre>
+                 </div>
+               )}
+               {/* GPT Instructions */}
+               {prompts.gptInstructions && (
+                 <div className="mt-4"> {/* Behält Abstand bei */}
+                   {/* --- NEU: Flex Container für Titel und Button --- */}
+                   <div className="flex justify-between items-center mb-2">
+                     <h4 className="text-md font-semibold text-gray-700">GPT Instructions</h4>
+                     <button
+                       onClick={() => handleCopy(prompts.gptInstructions, 'gptInstructions')} // Eindeutige ID 'gptInstructions'
+                       className={`px-2 py-1 text-xs rounded transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-1 ${
+                         copiedItemId === 'gptInstructions'
+                           ? 'bg-green-500 text-white focus:ring-green-400' // Feedback
+                           : 'bg-blue-100 text-blue-700 hover:bg-blue-200 focus:ring-blue-400' // Normal
+                       }`}
+                     >
+                       {copiedItemId === 'gptInstructions' ? 'Kopiert!' : 'Kopieren'}
+                     </button>
+                   </div>
+                   <pre className="bg-gray-100 p-4 rounded-md text-sm text-gray-800 whitespace-pre-wrap font-sans">
+                     {prompts.gptInstructions}
+                   </pre>
+                 </div>
+               )}
+               {/* Perplexity Prompt */}
+               {prompts.perplexityPrompt && (
+                 <div className="mt-4"> {/* Behält Abstand bei */}
+                   {/* --- NEU: Flex Container für Titel und Button --- */}
+                   <div className="flex justify-between items-center mb-2">
+                     <h4 className="text-md font-semibold text-gray-700">Perplexity Recherche Prompt</h4>
+                     <button
+                       onClick={() => handleCopy(prompts.perplexityPrompt, 'perplexityPrompt')} // Eindeutige ID 'perplexityPrompt'
+                       className={`px-2 py-1 text-xs rounded transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-1 ${
+                         copiedItemId === 'perplexityPrompt'
+                           ? 'bg-green-500 text-white focus:ring-green-400' // Feedback
+                           : 'bg-blue-100 text-blue-700 hover:bg-blue-200 focus:ring-blue-400' // Normal
+                       }`}
+                     >
+                       {copiedItemId === 'perplexityPrompt' ? 'Kopiert!' : 'Kopieren'}
+                     </button>
+                   </div>
+                   <pre className="bg-gray-100 p-4 rounded-md text-sm text-gray-800 whitespace-pre-wrap font-sans">
+                     {prompts.perplexityPrompt}
+                   </pre>
+                 </div>
                )}
              </div>
            )}

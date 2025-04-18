@@ -2,7 +2,7 @@
 
 const meetingGptContent = {
     id: "meeting-optimization",
-    title: "Erstellung eines GPTs für Meeting-Optimierung",
+    title: "test GPTs für Meeting-Optimierung",
     
     // Abschnitte mit Aufgaben - angepasst für den Meeting-Optimierungs-Anwendungsfall
     sections: [
@@ -10,7 +10,7 @@ const meetingGptContent = {
         id: "preparation",
         title: "Vorbereitung",
         tasks: [
-          { id: "prep1", text: "ChatGPT-Konto mit Plus-Abonnement sicherstellen" },
+          { id: "prep1", text: "ChatGPT-Konto mit Plus-Abonnement sicherstellen und dann..." },
           { id: "prep2", text: "Typische Meeting-Agenden und Protokolle sammeln" },
           { id: "prep3", text: "Meeting-Schmerzpunkte im Team identifizieren" },
           { id: "prep4", text: "Bestehende Meeting-Workflows dokumentieren" }
