@@ -153,10 +153,9 @@ function App() {
             {/* ReactPlayer Komponente */}
             <div className="aspect-w-16 aspect-h-9"> {/* Seitenverhältnis */}
               <ReactPlayer
-                url='/videos/test.mp4' // Test mit anderer MP4-Datei
+                url='/videos/intro.webm' // Test mit WebM Format
                 // Alternativ: url='https://www.youtube.com/watch?v=your_video_id'
                 controls={true}       // Zeigt die Player-eigenen Controls an
-                playing={true}        // Versucht Autoplay (kann blockiert sein)
                 width='100%'
                 height='100%'
                 // Weitere Optionen: loop, muted, volume, onEnded, onProgress etc.
