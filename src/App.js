@@ -153,7 +153,7 @@ function App() {
             {/* ReactPlayer Komponente */}
             <div className="aspect-w-16 aspect-h-9"> {/* Seitenverhältnis */}
               <ReactPlayer
-                url='/videos/intro.mp4' // Pfad zur lokalen Datei (muss in public/videos existieren!)
+                url='/videos/test.mp4' // Test mit anderer MP4-Datei
                 // Alternativ: url='https://www.youtube.com/watch?v=your_video_id'
                 controls={true}       // Zeigt die Player-eigenen Controls an
                 playing={true}        // Versucht Autoplay (kann blockiert sein)
