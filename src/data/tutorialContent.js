@@ -12,27 +12,27 @@ const tutorialContent = {
       tasks: [
         { id: "prep1", text: "ChatGPT-Konto mit Plus-Abonnement sicherstellen" },
         { id: "prep2", text: "Perplexity-Konto für die Recherche einrichten" },
-        { id: "prep3", text: "Unternehmensinformationen zusammenstellen" },
-        { id: "prep4", text: "Beispiel-Zielunternehmen für Tests auswählen" }
+        { id: "prep3", text: "Unternehmensinformationen zusammenstellen (Digitale Beschreibungen, Marketingmaterial, etc.)" },
+        { id: "prep4", text: "Beispiel-Zielunternehmen für Tests auswählen (muss eine Website haben)" }
       ]
     },
     {
       id: "step1",
       title: "Schritt 1: GPT-Editor öffnen",
       tasks: [
-        { id: "s1t1", text: "Bei ChatGPT einloggen" },
-        { id: "s1t2", text: "\"GPTs erstellen\" auswählen" },
-        { id: "s1t3", text: "\"Neuer GPT\" anklicken" }
+        { id: "s1t1", text: "Bei ChatGPT-Konto einloggen" },
+        { id: "s1t2", text: "Links im Menübaum \"GPTs erkunden\" auswählen" },
+        { id: "s1t3", text: "Oben rechts \"+ Erstellen\" anklicken" }
       ]
     },
     {
       id: "step2",
       title: "Schritt 2: Grundlegende GPT-Konfiguration",
       tasks: [
-        { id: "s2t1", text: "Namen eingeben: \"B2B Kaltakquise Profi\"" },
-        { id: "s2t2", text: "Beschreibung eingeben: \"Erstellt hochpersonalisierte B2B-Kaltakquise-Emails für Unternehmen jeder Branche basierend auf detaillierten Recherchen zu Zielunternehmen und eigenen Dienstleistungen.\"" },
+        { id: "s2t1", text: "Namen eingeben: z.B. \"B2B Kaltakquise Profi\"" },
+        { id: "s2t2", text: "Beschreibung eingeben: z.B. \"Erstellt hochpersonalisierte B2B-Kaltakquise-Emails für Unternehmen jeder Branche basierend auf detaillierten Recherchen zu Zielunternehmen und eigenen Dienstleistungen.\"" },
         { id: "s2t3", text: "Hinweise eingeben (siehe Abschnitt \"Hilfreiche Prompts\")" },
-        { id: "s2t4", text: "Gesprächsaufhänger eingeben: \"Ich möchte eine personalisierte Kaltakquise-Email erstellen. Hier sind Informationen über mein Unternehmen und das Zielunternehmen.\"" }
+        { id: "s2t4", text: "Gesprächsaufhänger eingeben: z.B. \"Ich möchte eine personalisierte Kaltakquise-Email erstellen. Hier sind Informationen über mein Unternehmen und das Zielunternehmen.\"" }
       ]
     },
     {
