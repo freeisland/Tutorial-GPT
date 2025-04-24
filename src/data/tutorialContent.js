@@ -42,7 +42,7 @@ const tutorialContent = {
         { id: "s3t1", text: "Internetsuche aktivieren ✓" },
         { id: "s3t2", text: "Code-Interpreter und Datenanalyse aktivieren ✓" },
         { id: "s3t3", text: "DALL-E Bildgenerierung deaktivieren ✗" },
-        { id: "s3t4", text: "Canvas deaktivieren ✗" }
+        { id: "s3t4", text: "Code-Interpreter und Datenanalyse deaktivieren ✗" }
       ]
     },
     {
