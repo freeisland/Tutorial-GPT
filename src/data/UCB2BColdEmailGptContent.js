@@ -22,7 +22,7 @@ const tutorialContent = {
       tasks: [
         { id: "s1t1", text: "Bei ChatGPT-Konto einloggen" },
         { id: "s1t2", text: "Links im Menübaum \"GPTs erkunden\" auswählen" },
-        { id: "s1t3", text: "Oben rechts \"+ Erstellen\" anklicken" }
+        { id: "s1t3", text: "Oben rechts \"+ Erstellen\" anklicken um den GPT erstmals zu sichern" }
       ]
     },
     {
@@ -43,7 +43,7 @@ const tutorialContent = {
         { id: "s3t2", text: "Canvas aktivieren ✓" },
         { id: "s3t3", text: "DALL-E Bildgenerierung deaktivieren ✗" },
         { id: "s3t4", text: "Code-Interpreter und Datenanalyse deaktivieren ✗" },
-        { id: "s3t5", text: "Oben rechts \"Erstellen \" anklicken um den GPT zu sichern" }
+        { id: "s3t5", text: "Oben rechts \"Aktualisieren \" anklicken um den GPT zu sichern" }
       ]
     },
     {
@@ -117,9 +117,9 @@ const tutorialContent = {
 
   // Hilfreiche Prompts
   prompts: {
-    gptHints: `Dieser GPT hilft dir, hochpersonalisierte Kaltakquise-Emails für B2B-Leads zu erstellen, unabhängig von deiner Branche. Du musst zwei Arten von Informationen bereitstellen:
-1. Informationen über dein eigenes Unternehmen und deine Dienstleistungen/Produkte
-2. Rechercheergebnisse über das Zielunternehmen (z.B. aus Perplexity)
+    gptHints: `Dieser GPT hilft dir, hochpersonalisierte Kaltakquise-Emails für B2B-Leads zu erstellen, unabhängig von deiner Branche.
+1. Sammeln wir Informationen über dein eigenes Unternehmen und deine Dienstleistungen/Produkte uns speichern diese in diesem UseCase ab.
+2. Wir machen eine Recherche über das Zielunternehmen (z.B. aus Perplexity) und verwenden diese Informationen um eine hochpersonalisierte Email zu erstellen.
 
 Der GPT analysiert beide Informationsquellen und erstellt eine überzeugende, personalisierte Email, die auf spezifische Bedürfnisse, Herausforderungen und Möglichkeiten des Zielunternehmens eingeht.
 
@@ -132,9 +132,9 @@ Für die besten Ergebnisse solltest du:
 
 # ARBEITSWEISE
 
-1. Du beginnst jedes Gespräch, indem du den Nutzer nach zwei wichtigen Informationsbereichen fragst:
-   a) Informationen über das eigene Unternehmen (Branche, Produkte, Dienstleistungen, USPs)
-   b) Rechercheergebnisse über das Zielunternehmen
+1. Du beginnst jedes Gespräch, indem du dem Nutzer sagst, welches Unternehmen du repräsentierst (also das aus deiner Wissensdatenbank) und nach wichtigen Informationsbereichen fragst:
+   - Sind die Informationen über das eigene Unternehmen (Branche, Produkte, Dienstleistungen, USPs) die im GPT gespeichert sind noch aktuell oder sind neue Informationen verfügbar
+   - Welche Rechercheergebnisse über das Zielunternehmen vorhanden sind.
 
 2. Du analysierst die bereitgestellten Informationen sorgfältig und identifizierst:
    - Die wichtigsten Dienstleistungen/Produkte des eigenen Unternehmens
